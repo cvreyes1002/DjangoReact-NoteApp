@@ -1,8 +1,9 @@
-import { useState } from "react"
-import api from "../api"
-import { useNavigate } from "react-router-dom"
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
-import "../styles/Form.css"
+import { useState } from "react";
+import api from "../api";
+import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import "../styles/Form.css";
+import LoadingIndicator from "./LoadingIndicator";
 
 /*
  route: route where we go to when we submit the form (token route or register route)
@@ -17,7 +18,7 @@ function Form({ route, method }) {
   const name = method === "login" ? "Login" : "Register";
 
   const handleSubmit = async (e) => {
-    setLoading(true) 
+    setLoading(true);
     // Calling e.preventDefault() tells the browser: "Hey, don't do your default behavior.
     // Let me handle this submission manually with JavaScript instead."
     // This is crucial in modern web apps (like React or Vue) where you want to send data
@@ -25,21 +26,20 @@ function Form({ route, method }) {
     e.preventDefault();
 
     try {
-      const res = await api.post(route, {username, password} )
+      const res = await api.post(route, { username, password });
       if (method === "login") {
-        localStorage.setItem(ACCESS_TOKEN, res.data.access)
-        localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
-        navigate("/")
+        localStorage.setItem(ACCESS_TOKEN, res.data.access);
+        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+        navigate("/");
       } else {
-        navigate("/login")
+        navigate("/login");
       }
-     }
-    catch (error) {
-      alert(error)
+    } catch (error) {
+      alert(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
@@ -58,6 +58,7 @@ function Form({ route, method }) {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
+      {loading && <LoadingIndicator />}
       <button className="form-button" type="submit">
         {name}
       </button>
@@ -65,4 +66,4 @@ function Form({ route, method }) {
   );
 }
 
-export default Form
+export default Form;
