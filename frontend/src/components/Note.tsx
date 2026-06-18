@@ -1,6 +1,19 @@
 import "../styles/Note.css"
 
-function Note({ note, onDelete }) {
+interface NoteType {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+  author: number;
+}
+
+interface NoteProps {
+  note: NoteType;
+  onDelete: (id: string | number) => void; // A function that takes an id and returns nothing
+}
+
+function Note({ note, onDelete }: NoteProps) {
   const formattedDate = new Date(note.created_at).toLocaleDateString("en-US");
 
   return (

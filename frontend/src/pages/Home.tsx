@@ -2,10 +2,17 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import Note from "../components/Note";
 import "../styles/Home.css"
-// import { data } from "react-router-dom";
+
+interface Note {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+  author: number;
+}
 
 function Home() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState<Note[]>([]);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
@@ -24,7 +31,7 @@ function Home() {
       .catch((err) => alert(err)); // Catches any errors that occur during the request (e.g., server issues, network failures) and pops up an alert box showing the error.
   };
 
-  const deleteNote = (id) => {
+  const deleteNote = (id: string | number) => {
     api
       .delete(`/api/notes/delete/${id}/`)
       .then((res) => {
@@ -35,7 +42,7 @@ function Home() {
       .catch((error) => alert(error));
   };
 
-  const createNote = (e) => {
+  const createNote = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     api
       .post("/api/notes/", { content, title })

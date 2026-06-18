@@ -5,11 +5,15 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
 
+interface FormProps {
+  route: string;
+  method: string;
+}
 /*
  route: route where we go to when we submit the form (token route or register route)
  method: tell us if we're registering or logging in
  */
-function Form({ route, method }) {
+function Form({ route, method }: FormProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +21,7 @@ function Form({ route, method }) {
 
   const name = method === "login" ? "Login" : "Register";
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     setLoading(true);
     // Calling e.preventDefault() tells the browser: "Hey, don't do your default behavior.
     // Let me handle this submission manually with JavaScript instead."
